@@ -26,3 +26,18 @@
 .hidden{
   display: none;
 }
+
+.text-left{
+  text-align: left;
+}
+
+.small-image{
+  height: 3em;
+  margin-right: 10px;
+}
+
+.text-image{
+  display: flex;
+  align-items: end;
+  margin-bottom: 20px;
+}

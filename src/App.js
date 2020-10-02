@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
 import UserInformation from './UserInformation';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import './App.css';
 
 class App extends Component {
 
@@ -25,7 +30,8 @@ class App extends Component {
    		(result) => {
    			this.setState({
    				user: {
-   					name: result.login,
+					name: result.login,
+					img: result.avatar_url   
    				}
    			});
    		},
@@ -45,7 +51,8 @@ class App extends Component {
    				reposArr.push(result[key]);
    				this.setState(prevState => ({
    					user: {
-   						name: prevState.user.name,
+						name: prevState.user.name,
+						img: prevState.user.img,
    						repos: reposArr
    					}
    				}))
@@ -78,17 +85,25 @@ class App extends Component {
             Click me
           </button>
         </div>
-        <div>
-			{this.state.user.name}
-		</div>
-		<div>
-			{this.state.user.repos !== undefined ? this.state.user.repos.map((repo, index) =>
-			<UserInformation key={index} name={repo.name} description={repo.description} />
-			) : 
-			<div>
-				Display the user information here
-			</div>}
-		</div>
+		<Container>
+			<Row>
+				<Col>
+					<div className="text-left text-image">
+						<img className="small-image" src={this.state.user.img}></img>
+						<h1>{this.state.user.name}</h1>
+					</div>
+					<div>
+						{this.state.user.repos !== undefined ? this.state.user.repos.map((repo, index) =>
+						<UserInformation key={index} name={repo.name} description={repo.description}/>
+						) : 
+						<div>
+							Display the user information here
+						</div>}
+					</div>
+				</Col>
+			</Row>
+		</Container>
+		
       </div>
     );
   }
