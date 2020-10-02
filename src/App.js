@@ -23,7 +23,6 @@ class App extends Component {
    	.then(res => res.json())
    	.then(
    		(result) => {
-   			console.log(result.login);
    			this.setState({
    				user: {
    					name: result.login,
@@ -79,7 +78,17 @@ class App extends Component {
             Click me
           </button>
         </div>
-        <UserInformation />
+        <div>
+			{this.state.user.name}
+		</div>
+		<div>
+			{this.state.user.repos !== undefined ? this.state.user.repos.map((repo, index) =>
+			<UserInformation key={index} name={repo.name} description={repo.description} />
+			) : 
+			<div>
+				Display the user information here
+			</div>}
+		</div>
       </div>
     );
   }
