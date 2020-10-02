@@ -13,7 +13,6 @@ class App extends Component {
   getUserInformation() {
     /*
       TODO: fetch a user from the GitHub API
-
       TIPS:
        1) The Fetch API provides an interface for
          fetching resources (including across the network).
