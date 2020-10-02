@@ -57,7 +57,9 @@ class App extends Component {
    				error
    			});
    		}
-   	)
+	   )
+	   
+	   document.getElementById('fetch-button').classList.toggle('hidden');
   }
 
   render() {
@@ -73,7 +75,7 @@ class App extends Component {
         <div className="App-intro">
           <hr />
           <p>Click on the button to fetch the user information</p>
-          <button onClick={this.getUserInformation.bind(this)}>
+          <button id='fetch-button' onClick={this.getUserInformation.bind(this)}>
             Click me
           </button>
         </div>
