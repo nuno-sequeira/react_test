@@ -18,6 +18,46 @@ class App extends Component {
          fetching resources (including across the network).
        2) Maybe you want to update the state here.
     */
+
+   fetch('https://api.github.com/users/microsoft')
+   	.then(res => res.json())
+   	.then(
+   		(result) => {
+   			console.log(result.login);
+   			this.setState({
+   				user: {
+   					name: result.login,
+   				}
+   			});
+   		},
+   		(error) => {
+   			this.setState({
+   				error
+   			});
+   		}
+   	)
+
+   fetch('https://api.github.com/users/microsoft/repos')
+   	.then(res => res.json())
+   	.then(
+   		(result) => {
+   			let reposArr = [];
+   			Object.keys(result).forEach(key => {
+   				reposArr.push(result[key]);
+   				this.setState(prevState => ({
+   					user: {
+   						name: prevState.user.name,
+   						repos: reposArr
+   					}
+   				}))
+   			});
+   		},
+   		(error) => {
+   			this.setState({
+   				error
+   			});
+   		}
+   	)
   }
 
   render() {
