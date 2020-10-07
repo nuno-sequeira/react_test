@@ -92,7 +92,7 @@ class App extends Component {
 		infoToShow = <div>{this.state.error}</div>
 	} else if(this.state.user.repos && this.state.user.name){
 		let nameToShow = <div className="text-left text-image">
-						<img className="small-image" src={this.state.user.img}></img>
+						<img className="small-image" src={this.state.user.img} alt="user"></img>
 						<h1>{this.state.user.name}</h1>
 					</div>
 		let reposToShow = this.state.user.repos.map((repo, index) =>

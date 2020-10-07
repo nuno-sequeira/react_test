@@ -38,6 +38,6 @@
 
 .text-image{
   display: flex;
-  align-items: end;
+  align-items: flex-start;
   margin-bottom: 20px;
 }
