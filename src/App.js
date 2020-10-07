@@ -12,7 +12,10 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { user: {} }
+	this.state = { 
+		user: {},
+		
+	}
   }
 
   getUserInformation() {
@@ -64,11 +67,18 @@ class App extends Component {
    			});
    		}
 	   )
-	   
-	   document.getElementById('fetch-button').classList.toggle('hidden');
   }
 
   render() {
+	let hideButton;
+	if(!this.state.user.repos) {
+		hideButton = <button id='fetch-button' onClick={this.getUserInformation.bind(this)}>
+		Click me
+	  </button>;
+	} else {
+		hideButton = undefined;
+	}
+
     return (
       <div className="App">
         <div className="App-header">
@@ -81,9 +91,7 @@ class App extends Component {
         <div className="App-intro">
           <hr />
           <p>Click on the button to fetch the user information</p>
-          <button id='fetch-button' onClick={this.getUserInformation.bind(this)}>
-            Click me
-          </button>
+          {hideButton}
         </div>
 		<Container>
 			<Row>
