@@ -14,7 +14,7 @@ class App extends Component {
     super(props);
 	this.state = { 
 		user: {},
-		
+		clickedButton: false
 	}
   }
 
@@ -27,52 +27,83 @@ class App extends Component {
        2) Maybe you want to update the state here.
     */
 
+	this.setState({
+		...this.state,
+		clickedButton: true
+	})
+
    fetch('https://api.github.com/users/microsoft')
-   	.then(res => res.json())
-   	.then(
-   		(result) => {
-   			this.setState({
-   				user: {
-					name: result.login,
-					img: result.avatar_url   
-   				}
-   			});
-   		},
-   		(error) => {
-   			this.setState({
-   				error
-   			});
-   		}
-   	)
+   .then( response => {
+		if (!response.ok) { throw response }
+		return response.json()
+	})
+	.then( result => {
+		this.setState({
+			user: {
+			 name: result.login,
+			 img: result.avatar_url   
+			}
+		});
+	})
+	.catch( err => {
+		err.text().then( errorMessage => {
+			this.setState({
+				user: {...this.state.user},
+				error: errorMessage
+			});
+		})
+	})
 
    fetch('https://api.github.com/users/microsoft/repos')
-   	.then(res => res.json())
-   	.then(
-   		(result) => {
-			this.setState(state => ({
+   .then( response => {
+		if (!response.ok) { throw response }
+		return response.json()
+	})
+	.then( result => {
+		this.setState({
 			user: {
-				...state.user,
+				...this.state.user,
 				repos: result
 			}
-			}))
-   		},
-   		(error) => {
-   			this.setState({
-   				error
-   			});
-   		}
-	   )
-	   console.log(this.state);
+		});
+	})
+	.catch( err => {
+		err.text().then( errorMessage => {
+			this.setState({
+				user: {...this.state.user},
+				error: errorMessage
+			});
+		})
+	})
   }
 
   render() {
 	let hideButton;
-	if(!this.state.user.repos) {
+	if(!this.state.clickedButton) {
 		hideButton = <button id='fetch-button' onClick={this.getUserInformation.bind(this)}>
-		Click me
-	  </button>;
+						Click me
+					</button>;
 	} else {
 		hideButton = undefined;
+	}
+	
+	let infoToShow;
+	if(this.state.error){
+		infoToShow = <div>{this.state.error}</div>
+	} else if(this.state.user.repos && this.state.user.name){
+		let nameToShow = <div className="text-left text-image">
+						<img className="small-image" src={this.state.user.img}></img>
+						<h1>{this.state.user.name}</h1>
+					</div>
+		let reposToShow = this.state.user.repos.map((repo, index) =>
+				<UserInformation key={index} name={repo.name} description={repo.description}/>
+				)
+		infoToShow = <div>
+						<div>{nameToShow}</div>
+						<div>{reposToShow}</div>
+					</div>
+	} else{
+		infoToShow = <div>Display the user information here</div>;
 	}
 
     return (
@@ -92,17 +123,8 @@ class App extends Component {
 		<Container>
 			<Row>
 				<Col>
-					<div className="text-left text-image">
-						<img className="small-image" src={this.state.user.img}></img>
-						<h1>{this.state.user.name}</h1>
-					</div>
 					<div>
-						{this.state.user.repos !== undefined ? this.state.user.repos.map((repo, index) =>
-						<UserInformation key={index} name={repo.name} description={repo.description}/>
-						) : 
-						<div>
-							Display the user information here
-						</div>}
+						{infoToShow}
 					</div>
 				</Col>
 			</Row>
