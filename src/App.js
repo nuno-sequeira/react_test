@@ -49,16 +49,12 @@ class App extends Component {
    	.then(res => res.json())
    	.then(
    		(result) => {
-   			let reposArr = [];
-   			Object.keys(result).forEach(key => {
-   				reposArr.push(result[key]);
-   				this.setState(state => ({
-					user: {
-						...state.user,
-						repos: reposArr
-					}
-   				}))
-   			});
+			this.setState(state => ({
+			user: {
+				...state.user,
+				repos: result
+			}
+			}))
    		},
    		(error) => {
    			this.setState({
