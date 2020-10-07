@@ -52,12 +52,11 @@ class App extends Component {
    			let reposArr = [];
    			Object.keys(result).forEach(key => {
    				reposArr.push(result[key]);
-   				this.setState(prevState => ({
-   					user: {
-						name: prevState.user.name,
-						img: prevState.user.img,
-   						repos: reposArr
-   					}
+   				this.setState(state => ({
+					user: {
+						...state.user,
+						repos: reposArr
+					}
    				}))
    			});
    		},
@@ -67,6 +66,7 @@ class App extends Component {
    			});
    		}
 	   )
+	   console.log(this.state);
   }
 
   render() {
